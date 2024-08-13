@@ -1,7 +1,6 @@
+# Deploying The Application 
 
 ![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Kubernetes-Deployment-MERN-Application-Diagram.jpg?raw=true)
-
-# Deploying The Application 
 
 1. **Creating Dockerfiles**
    - Backend application have its own Dockerfile in backend directory.
