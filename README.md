@@ -2,24 +2,87 @@
 
 ![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Kubernetes-Deployment-MERN-Application.jpg?raw=true)
 
-1. **Creating Dockerfiles**
-   - Backend application have its own Dockerfile in backend directory.
-   - Use command " docker build -t image-name . "
-   - Frontend application also have its own Dockerfile in frontend directory.
-   - Use command " docker build -t image-name . "
+## Project Overview
+A fullstack Hotel Booking application made using MongoDB, ExpressJS, ReactJS and Node (MERN), is deployed on kubernetes cluster after creating Dockerfiles and testing them locally. MongoDB is running as deployment on the cluster, backend is connected with it via 
+MongoDB connection string and it is running as a ClusterIP service. The frontend is using environment variable to connect with backend and it is running as a NodePort service to access it on a specific port in the cluster.
 
-3. **Running Containers With Docker-Compose**
-   - Use command " docker-compose up " to to create (if images are not created) and run all the containers, a network will connect all of them automatically.
+## Tech Stack
+- MongoDB
+- Node (ExpressJS, ReactJs)
+- Docker
+- Kubernetes
 
-4. **Running on Kuberntes Cluster**
-   - As docker images are build and pushed to Dockerhub Kubernetes Deployment files will pull them.
-   - Setup your Kubernetes Cluster (for locally use Minikube) 
-   - Use command " kubectl apply -f database.yaml "
-   - Use command " kubectl apply -f backend.yaml "
-   - Use command " kubectl apply -f frontend.yaml "
-   - Use command " kubectl apply -f frontservice.yaml "
-   - database.yaml backend.yaml frontend.yaml have both Deployment and Service components.
-   - To get expose the website in minikube Nodeport is used (if Domain-name is present then LoadBalancer type is used) and frontservice.yaml is the NodePort type service so it is created separately for convenience.
-   - minikube will assign Ip address to this service , use "minikube service service-name --url" to get the address
-   - Open your browser and go to that ip with port 30005, Your Website is ready....!
+## Steps to Deploy
+1. Creating Dockerfiles
+2. Testing them with Docker-Compose
+3. Running on Kubernetes Cluster
+
+### 1. Creating Dockerfiles
+Backend and Forntend applications both have their Dockerfiles on their directory. Dockerfiles are written to follow these few steps...
+- Pulling the Base Image
+- Creating a workdirectory
+- Coping the current directory files into container's working directory
+- Installing Dependencies
+- Running the Application
+- Exposing the Port
+
+Using the command
+```bash
+docker build -t image-name .
+```
+inside each directory to build the images.
+   
+### 2. Testing them with Docker-Compose
+Docker compose will pull the MongoDB image, run the frontend and backend image and will create a Docker Network to connect them.
+
+```Dockerfile
+version: "3.8"
+services:
+ mongo:
+  image: mongo
+  container_name: database
+  volumes:
+   - ./data/:/data/db
+  restart: unless-stopped
+
+ backend:
+  build: ./backend
+  container_name: backend
+  ports:
+   - "7000:7000"
+  environment:
+   MONGODB_CONNECTION_STRING: "mongodb://mongo:27017" 
+   FRONTEND_URL: http://frontend:3000
+  depends_on:
+   - mongo
+
+ frontend:
+  build: ./frontend
+  container_name: frontend
+  ports:
+   - "3000:3000"
+   - "5173:5173"
+  environment:
+   VITE_API_BASE_URL: http://backend:7000
+  depends_on:
+   - backend
+```
+Running this Docker Compose file, Using the Command...
+```bash
+docker compose up
+```
+
+### 4. Running on Kubernetes Cluster
+The Kubernetes folder is containing all the manifest files for database, backend and frontend. a separate NodePort service file is created to access the application for users in port 5173 and another ClusterIp service is
+created to connect with the backend in port 3000. To get expose the website in minikube Nodeport is used, if Domain-name is present then LoadBalancer type can be used.
+Applying the files using command...
+```bash
+kubectl apply -f Kubernetes<FOLDER-NAME>
+```
+In Local Deployment setup with Minikube, it will assign Ip address to this service 
+```bash
+minikube ip
+```
+on executing this command.
+Now Opening browser and going to that ip with port 30005, the application is ready....🚀
 
