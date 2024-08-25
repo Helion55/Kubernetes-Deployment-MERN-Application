@@ -1,4 +1,4 @@
-# Kubernetes Deployment of a MERN stack Hotel-Booking application 
+# Kubernetes deployment of a MERN stack Hotel-Booking application 
 
 ![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Mern-diagram.jpg?raw=true)
 
