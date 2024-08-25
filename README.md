@@ -1,6 +1,6 @@
 # Kubernetes Deployment of a MERN stack Hotel-Booking application 
 
-![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Kubernetes-Deployment-MERN-Application.jpg?raw=true)
+![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Mern-diagram.jpg?raw=true)
 
 ## Project Overview
 A fullstack Hotel Booking application made using MongoDB, ExpressJS, ReactJS and Node (MERN), is deployed on kubernetes cluster after creating Dockerfiles and testing them locally. MongoDB is running as deployment on the cluster, backend is connected with it via 
