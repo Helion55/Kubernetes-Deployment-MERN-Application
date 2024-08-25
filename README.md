@@ -1,4 +1,4 @@
-# Deploying The Application 
+# Kubernetes Deployment of a MERN stack Hotel-Booking application 
 
 ![Diagram](https://github.com/Helion55/Kubernetes-Deployment-MERN-Application/blob/main/Kubernetes-Deployment-MERN-Application.jpg?raw=true)
 
@@ -72,7 +72,7 @@ Running this Docker Compose file, Using the Command...
 docker compose up
 ```
 
-### 4. Running on Kubernetes Cluster
+### 3. Running on Kubernetes Cluster
 The Kubernetes folder is containing all the manifest files for database, backend and frontend. a separate NodePort service file is created to access the application for users in port 5173 and another ClusterIp service is
 created to connect with the backend in port 3000. To get expose the website in minikube Nodeport is used, if Domain-name is present then LoadBalancer type can be used.
 Applying the files using command...
